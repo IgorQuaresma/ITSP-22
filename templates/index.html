@@ -22,9 +22,10 @@ crossorigin=""></script>
     .openPopup();
     {% endfor %}
 
-    {% for dictionary in bus_stops_markers %}
-    L.marker([{{ dictionary['lat'] }}, {{ dictionary['lon'] }}]).addTo(map)
-    .bindPopup("{{ dictionary['popup'] }}")
+    <!--    bus stops using df from stops gtfs format-->
+    {% for bus_stop_all in bus_stops_all_markers %}
+    L.marker([{{ bus_stop_all['stop_lat'] }}, {{ bus_stop_all['stop_lon'] }}]).addTo(map)
+    .bindPopup("{{ bus_stop_all['stop_name'] }}")
     .openPopup();
     {% endfor %}
 
