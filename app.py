@@ -1,10 +1,9 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, url_for
 import pandas as pd
 
 app = Flask(__name__)
 
 @app.route('/')
-
 def city_center():
     markers = [
         {
@@ -21,6 +20,11 @@ def bus_stops_all():
     dict_all_stops = df_all_stops.to_dict('records')
 
     return render_template('index.html', bus_stops_all_markers=dict_all_stops)
+
+@app.route('/about/')
+def about():
+    return render_template('about.html')
+
 
 if __name__ == '__main__':
    app.run(host="localhost", port=8080, debug=True)
