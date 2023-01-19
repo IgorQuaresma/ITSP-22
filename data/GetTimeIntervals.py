@@ -36,6 +36,8 @@ buses_current_timeinterval = stop_times[(stop_times['arrival_time'] > current_ti
 all_ids = buses_current_timeinterval['stop_id'].str.contains(stop_id) #get mask for getting records with proper id
 buses_interval_location = buses_current_timeinterval[all_ids] #get records in the given interval and with proper id
 #sorted_interval = buses_interval_location.sort_values('arrival_time')
+
+#take only nesessary columns
 time_interval = buses_interval_location[['arrival_time', 'trip_id']]
 try:
     time_interval = time_interval.groupby(by=['arrival_time']).sum()
