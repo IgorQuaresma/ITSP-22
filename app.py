@@ -4,6 +4,14 @@ import pandas as pd
 app = Flask(__name__)
 
 @app.route('/')
+def bus_stops_all():
+    df_all_stops = pd.read_csv("./data/gtfs/stops.txt")
+    dict_all_stops = df_all_stops.to_dict('records')
+
+    return render_template('index.html', bus_stops_all_markers=dict_all_stops)
+
+
+@app.route('/city_center')
 def city_center():
     markers = [
         {
@@ -13,13 +21,6 @@ def city_center():
         }
     ]
     return render_template('index.html', markers=markers)
-
-@app.route('/bus_stops_all')
-def bus_stops_all():
-    df_all_stops = pd.read_csv("./data/gtfs/stops.txt")
-    dict_all_stops = df_all_stops.to_dict('records')
-
-    return render_template('index.html', bus_stops_all_markers=dict_all_stops)
 
 @app.route('/about/')
 def about():

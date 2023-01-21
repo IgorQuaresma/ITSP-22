@@ -1,20 +1,26 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div id="map"></div>
-    <script src="{{ url_for('static', filename='js/universal.js') }}" /></script>
-    <script>
+<div id="map"></div>
+<script src="{{ url_for('static', filename='js/universal.js') }}"/></script>
+<script>
+    <!--plot marker on center of the city-->
     {% for marker in markers %}
-    L.marker([{{ marker['lat'] }}, {{ marker['lon'] }}]).addTo(map)
-    .bindPopup("{{ marker['popup'] }}")
-    .openPopup();
+      var markerCenter = L.marker([{{ marker['lat'] }}, {{ marker['lon'] }}]).addTo(map)
+      markerCenter.bindPopup("{{ marker['popup'] }}").openPopup();
     {% endfor %}
 
-    <!--    bus stops using df from stops gtfs format-->
+    <!--bus stops using df from stops gtfs format-->
     {% for bus_stop_all in bus_stops_all_markers %}
-    L.marker([{{ bus_stop_all['stop_lat'] }}, {{ bus_stop_all['stop_lon'] }}]).addTo(map)
-    .bindPopup("{{ bus_stop_all['stop_name'] }}")
-    .openPopup();
+      var markerBusStops = L.marker([{{ bus_stop_all['stop_lat'] }}, {{ bus_stop_all['stop_lon'] }}]).addTo(map)
+      markerBusStops.bindPopup("{{ bus_stop_all['stop_name'] }}").openPopup();
+
+      <!--return coordinates of marker when clicked-->
+      markerBusStops.on('click', function (e) {
+      var markerlatlng = e.target.getLatLng();
+      console.log(markerlatlng);
+      });
     {% endfor %}
-    </script>
+
+</script>
 {% endblock content %}
