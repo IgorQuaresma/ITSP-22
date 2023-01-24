@@ -13,7 +13,7 @@
     <!--bus stops using df from stops gtfs format-->
     {% for bus_stop_all in bus_stops_all_markers %}
       var markerBusStops = L.marker([{{ bus_stop_all['stop_lat'] }}, {{ bus_stop_all['stop_lon'] }}]).addTo(map)
-      markerBusStops.bindPopup("{{ bus_stop_all['stop_name'] }}").openPopup();
+      markerBusStops.bindPopup("{{ bus_stop_all['stop_name'].split(",")[1:] }}").openPopup();
 
       <!--return coordinates of marker when clicked-->
       markerBusStops.on('click', function (e) {
