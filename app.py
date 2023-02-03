@@ -9,7 +9,7 @@ def bus_stops_all():
     df_all_stops = df_all_stops[df_all_stops["stop_name"].str.contains("Freiburg")] #filter only stops in Freiburg (optimize performance)
     dict_all_stops = df_all_stops.to_dict('records')
 
-    return render_template('index.html', bus_stops_all_markers=dict_all_stops)
+    return render_template('home.html', bus_stops_all_markers=dict_all_stops)
 
 @app.route('/stop_times')
 def stop_times():
@@ -20,7 +20,7 @@ def stop_times():
     df_combined = df_combined[df_combined["stop_name"].str.contains("Freiburg")] #filter only stops in Freiburg (optimize performance)
     dict_combined = df_combined.to_dict('records')
 
-    return render_template('index.html', bus_stops_all_markers=dict_combined)
+    return render_template('home.html', bus_stops_all_markers=dict_combined)
 
 @app.route('/city_center')
 def city_center():
@@ -31,7 +31,7 @@ def city_center():
             'popup': 'Freiburg im Breisgau'
         }
     ]
-    return render_template('index.html', markers=markers)
+    return render_template('home.html', markers=markers)
 
 @app.route('/about/')
 def about():
