@@ -6,7 +6,11 @@ app = Flask(__name__)
 @app.route('/')
 def bus_stops_all():
     df_all_stops = pd.read_csv("./data/gtfs/stops.txt")
-    df_all_stops = df_all_stops[df_all_stops["stop_name"].str.contains("Freiburg")] #filter only stops in Freiburg (optimize performance)
+    df_stop_times = pd.read_csv("./data/gtfs/stop_times.txt")
+    df_combined = pd.merge(df_all_stops, df_stop_times, left_on="stop_id", right_on="stop_id")  # combine both dataframes using "stop_id" column
+
+
+    df_combined = df_combined[df_combined["stop_name"].str.contains("Freiburg")] #filter only stops in Freiburg (optimize performance)
     dict_all_stops = df_all_stops.to_dict('records')
 
     return render_template('home.html', bus_stops_all_markers=dict_all_stops)
@@ -14,7 +18,7 @@ def bus_stops_all():
 @app.route('/stop_times')
 def stop_times():
     df_all_stops = pd.read_csv("./data/gtfs/stops.txt")
-    df_stop_times = pd.read_csv("./data/gtfs/stops_times.txt")
+    df_stop_times = pd.read_csv("./data/gtfs/stop_times.txt")
     df_combined = pd.merge(df_all_stops, df_stop_times, left_on="stop_id", right_on="stop_id") #combine both dataframes using "stop_id" column
 
     df_combined = df_combined[df_combined["stop_name"].str.contains("Freiburg")] #filter only stops in Freiburg (optimize performance)
