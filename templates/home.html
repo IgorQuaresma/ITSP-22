@@ -23,15 +23,32 @@
       var markerlatlng = e.target.getLatLng();
       console.log(markerlatlng);
 
-      var markerlatlng_html = this.getPopup().getContent();
+      // Create variables dor later use in the html
+
+      // return name of the bus stop
+      var name = this.getPopup().getContent();
+
+      if (document.getElementById("name-stop") != null){
+        document.getElementById("name-stop").innerHTML = name;
+      }
+
+      // return latitude and longitude of the bus stop
+      var lat =  markerlatlng.lat
+      var long = markerlatlng.lng
+
+      if (document.getElementById("lat-stop") != null){
+        document.getElementById("lat-stop").innerHTML = lat;
+      }
+      if (document.getElementById("long-stop") != null){
+        document.getElementById("long-stop").innerHTML = long;
+      }
+
 
       if (document.getElementById("marker-info") != null){
         document.getElementById("marker-info").innerHTML = markerlatlng;
       }
 
-      if (document.getElementById("test") != null){
-        document.getElementById("test").innerHTML = markerlatlng_html;
-      }
+
 
       console.log(markerlatlng_html)
 
@@ -45,16 +62,18 @@
   <html>
     <div class="component">
       <div class="box">
-        <h3 id="marker-info"></h3>
+        <h4>Bus Stop:</h4>
+        <p id="name-stop"></p>
       </div>
 
       <div class="box">
-        <h3 id="test"></h3>
-        Box 2
+        <h4>Latitude:</h4>
+        <p id="lat-stop"></p>
       </div>
 
       <div class="box">
-        Box 3
+        <h4>Longitude:</h4>
+        <p id="long-stop"></p>
       </div>
 
       <div class="box">
