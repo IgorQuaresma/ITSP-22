@@ -22,7 +22,21 @@
       markerBusStops.on('click', function (e) {
       var markerlatlng = e.target.getLatLng();
       console.log(markerlatlng);
+
+      var markerlatlng_html = this.getPopup().getContent();
+
+      if (document.getElementById("marker-info") != null){
+        document.getElementById("marker-info").innerHTML = markerlatlng;
+      }
+
+      if (document.getElementById("test") != null){
+        document.getElementById("test").innerHTML = markerlatlng_html;
+      }
+
+      console.log(markerlatlng_html)
+
       });
+
 
     {% endfor %}
 
@@ -31,10 +45,11 @@
   <html>
     <div class="component">
       <div class="box">
-        <h3>{{markerlatlng}}</h3>
+        <h3 id="marker-info"></h3>
       </div>
 
       <div class="box">
+        <h3 id="test"></h3>
         Box 2
       </div>
 
