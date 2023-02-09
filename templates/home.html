@@ -48,7 +48,6 @@
 
 
       // return arrival time
-      var arrivalTime = markerBusStops.bindPopup("{{ bus_stop_all['stop_id'] }}").openPopup();
 
       if (document.getElementById("arrival-time") != null){
         document.getElementById("arrival-time").innerHTML = e.target.myStopID;
@@ -65,29 +64,15 @@
 
   <html>
     <div class="component">
-      <div class="box">
-        <h4>Bus Stop:</h4>
-        <p id="name-stop"></p>
-      </div>
-
-      <div class="box">
-        <h4>Latitude:</h4>
-        <p id="lat-stop"></p>
-      </div>
-
-      <div class="box">
-        <h4>Longitude:</h4>
-        <p id="long-stop"></p>
-      </div>
-
-      <div class="box">
-        <h4>Arrival time:</h4>
-        <p id="arrival-time"></p>
-      </div>
-
-      <div class="box">
-        Box 5
-      </div>
+        <div class="box">
+          <h4 id="name-stop"></h4>
+        </div>
+        <div class="box">
+          <h4 id="lat-stop"></h4>
+        </div>
+        <div class="box">
+          <h4 id="arrival-time"></h4>
+        </div>
     </div>
   </html>
 
