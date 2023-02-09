@@ -25,33 +25,33 @@
       console.log(markerlatlng);
 
 
-      // Create variables dor later use in the html
+        // Create variables dor later use in the html
 
-      // return name of the bus stop
-      var name = this.getPopup().getContent();
+        // return name of the bus stop
+        var name = this.getPopup().getContent();
 
-      if (document.getElementById("name-stop") != null){
-        document.getElementById("name-stop").innerHTML = name;
-      }
-
-
-      // return latitude and longitude of the bus stop
-      var lat =  markerlatlng.lat
-      var long = markerlatlng.lng
-
-      if (document.getElementById("lat-stop") != null){
-        document.getElementById("lat-stop").innerHTML = lat;
-      }
-      if (document.getElementById("long-stop") != null){
-        document.getElementById("long-stop").innerHTML = long;
-      }
+        if (document.getElementById("name-stop") != null){
+          document.getElementById("name-stop").innerHTML = name;
+        }
 
 
-      // return arrival time
+        // return latitude and longitude of the bus stop
+        var lat =  markerlatlng.lat
+        var long = markerlatlng.lng
 
-      if (document.getElementById("arrival-time") != null){
-        document.getElementById("arrival-time").innerHTML = e.target.myStopID;
-      }
+        if (document.getElementById("lat-stop") != null){
+          document.getElementById("lat-stop").innerHTML = lat;
+        }
+        if (document.getElementById("long-stop") != null){
+          document.getElementById("long-stop").innerHTML = long;
+        }
+
+
+        // return arrival time
+
+        if (document.getElementById("arrival-time") != null){
+          document.getElementById("arrival-time").innerHTML = e.target.myStopID;
+        }
 
 
 
@@ -64,18 +64,20 @@
 
   <html>
     <div class="component">
-        <div class="box">
+        <div class="col-sn-4">
           <h4 id="name-stop"></h4>
         </div>
-        <div class="box">
-          <h4 id="lat-stop"></h4>
-        </div>
-        <div class="box1">
-          <h4 id="lat-stop"></h4>
-        </div>
-        <div class="box2">
-          <h4 id="arrival-time"></h4>
-        </div>
+      <div class="row">
+          <div class="col-sn-4">
+            <h4 id="lat-stop"></h4>
+          </div>
+          <div class="col-sn-4">
+            <h4 id="lat-stop"></h4>
+          </div>
+          <div class="col-sn-4">
+            <h4 id="arrival-time"></h4>
+          </div>
+      </div>
     </div>
   </html>
 
