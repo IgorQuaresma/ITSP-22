@@ -12,7 +12,7 @@ stop_times = pd.read_csv(open(stop_times_path))
 routes = pd.read_csv(open(routes_path))
 
 current_time = datetime.now() #get current time
-time_interval = 15 #time interval in min
+time_interval = 30 #time interval in min
 weekday = current_time.weekday() # from 0 to 6 from Monday to Sunday
 current_calendar_type = ''
 if weekday <= 4:
