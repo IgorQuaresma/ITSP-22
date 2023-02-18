@@ -13,52 +13,10 @@
       markerCenter.bindPopup("{{ marker['popup'] }}").openPopup();
     {% endfor %}
 
-    <!--bus stops using df from stops gtfs format-->
-    {% for bus_stop_all in bus_stops_all_markers %}
-      var markerBusStops = L.marker([{{ bus_stop_all['stop_lat'] }}, {{ bus_stop_all['stop_lon'] }}]).addTo(map)
-      markerBusStops.bindPopup("{{ bus_stop_all['stop_name'].split(",")[1:][0] }}").openPopup();
-
-      <!--return coordinates of marker when clicked in console log-->
-      markerBusStops.on('click', function (e) {
-      var markerlatlng = e.target.getLatLng();
-      console.log(e)
-      console.log(markerlatlng);
-
-
-        // Create variables dor later use in the html
-
-        // return name of the bus stop
-        var name = this.getPopup().getContent();
-
-        if (document.getElementById("name-stop") != null){
-          document.getElementById("name-stop").innerHTML = name;
-        }
-
-
-        // return latitude and longitude of the bus stop
-        var lat =  markerlatlng.lat
-        var long = markerlatlng.lng
-
-        if (document.getElementById("lat-stop") != null){
-          document.getElementById("lat-stop").innerHTML = lat;
-        }
-        if (document.getElementById("long-stop") != null){
-          document.getElementById("long-stop").innerHTML = long;
-        }
-
-
-        // return arrival time
-
-        if (document.getElementById("arrival-time") != null){
-          document.getElementById("arrival-time").innerHTML = e.target.myStopID;
-        }
 
 
 
-      });
 
-
-    {% endfor %}
 
   </script>
 
@@ -67,17 +25,18 @@
         <div class="col-sn-4">
           <h4 id="name-stop"></h4>
         </div>
-      <div class="row">
-          <div class="col-sn-4">
-            <h4 id="lat-stop"></h4>
-          </div>
-          <div class="col-sn-4">
-            <h4 id="lat-stop"></h4>
-          </div>
-          <div class="col-sn-4">
-            <h4 id="arrival-time"></h4>
-          </div>
-      </div>
+        <div class="col-sn-4">
+          <h4 id="lat-stop"></h4>
+        </div>
+        <div class="col-sn-4">
+          <h4 id="long-stop"></h4>
+        </div>
+        <div class="col-sn-4">
+          <h4 id="arrival-time"></h4>
+        </div>
+        <div class="col-sn-4">
+          <h4 >Resultado: {{ test }}</h4>
+        </div>
     </div>
   </html>
 
