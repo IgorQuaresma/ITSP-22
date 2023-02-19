@@ -16,11 +16,13 @@
     <!--bus stops using df from stops gtfs format-->
     {% for bus_stop_all in bus_stops_all_markers %}
       var markerBusStops = L.marker([{{ bus_stop_all['stop_lat'] }}, {{ bus_stop_all['stop_lon'] }}]).addTo(map)
-      markerBusStops.bindPopup("{{ bus_stop_all['stop_name'].split(",")[1:][0] }}").openPopup();
+      //markerBusStops.bindPopup("{{ bus_stop_all['stop_name'].split(",")[1:][0] }}").openPopup();
+      markerBusStops.bindPopup("<p>{{ dict(bus_stop_all)['stop_name'] }}</p><p>{{ dict(bus_stop_all)['stop_lat'] }}</p>").openPopup();
 
       <!--return coordinates of marker when clicked in console log-->
       markerBusStops.on('click', function (e) {
       var markerlatlng = e.target.getLatLng();
+      var latitude = e.target.lat
       console.log(e)
       console.log(markerlatlng);
 
@@ -47,10 +49,16 @@
         }
 
 
-        // return arrival time
+        function showMarkerInfo() {
+          var content = marker.options.id;
+          L.popup().setLatLng(marker.getLatLng()).setContent(content).openOn(map);
+        }
 
-        if (document.getElementById("arrival-time") != null){
-          document.getElementById("arrival-time").innerHTML = e.target.myStopID;
+        // return arrival time
+        var parentStation = this.getPopup().setContent({{ bus_stop_all['parent_station'] }});
+
+        if (document.getElementById("parent-station") != null){
+          document.getElementById("parent-station").innerHTML = e.target.parentStation;
         }
 
 
@@ -72,10 +80,10 @@
             <h4 id="lat-stop"></h4>
           </div>
           <div class="col-sn-4">
-            <h4 id="lat-stop"></h4>
+            <h4 id="long-stop"></h4>
           </div>
           <div class="col-sn-4">
-            <h4 id="arrival-time"></h4>
+            <h4 id="parent-station"> {{ latitude }}</h4>
           </div>
       </div>
     </div>
