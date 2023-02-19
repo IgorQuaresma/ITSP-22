@@ -17,7 +17,14 @@
     {% for bus_stop_all in bus_stops_all_markers %}
       var markerBusStops = L.marker([{{ bus_stop_all['stop_lat'] }}, {{ bus_stop_all['stop_lon'] }}]).addTo(map)
       //markerBusStops.bindPopup("{{ bus_stop_all['stop_name'].split(",")[1:][0] }}").openPopup();
-      markerBusStops.bindPopup("<p>{{ dict(bus_stop_all)['stop_name'] }}</p><p>{{ dict(bus_stop_all)['stop_lat'] }}</p>").openPopup();
+
+      <!--template of the pop up when clicked-->
+      markerBusStops.bindPopup("<p>{{ dict(bus_stop_all)['stop_name'].split(",")[1:][0] }}</p>" +     //display name of the bus station
+                            "<p>Latitude: {{ dict(bus_stop_all)['stop_lat'] }}</p>" +                 //display latitude
+                            "<p>Longitude: {{ dict(bus_stop_all)['stop_lon'] }}</p>" +                 //display longitude
+                            "<p>Arrival time: {{ dict(bus_stop_all)['arrival_time'] }}</p>" +         //display arrival time
+                            "<p>Departure time: {{ dict(bus_stop_all)['departure_time'] }}</p>").openPopup();    //display departure time
+
 
       <!--return coordinates of marker when clicked in console log-->
       markerBusStops.on('click', function (e) {
@@ -37,29 +44,19 @@
         }
 
 
-        // return latitude and longitude of the bus stop
-        var lat =  markerlatlng.lat
-        var long = markerlatlng.lng
+<!--        // return latitude and longitude of the bus stop-->
+<!--        var lat =  markerlatlng.lat-->
+<!--        var long = markerlatlng.lng-->
 
-        if (document.getElementById("lat-stop") != null){
-          document.getElementById("lat-stop").innerHTML = lat;
-        }
-        if (document.getElementById("long-stop") != null){
-          document.getElementById("long-stop").innerHTML = long;
-        }
+<!--        if (document.getElementById("lat-stop") != null){-->
+<!--          document.getElementById("lat-stop").innerHTML = lat;-->
+<!--        }-->
+<!--        if (document.getElementById("long-stop") != null){-->
+<!--          document.getElementById("long-stop").innerHTML = long;-->
+<!--        }-->
 
 
-        function showMarkerInfo() {
-          var content = marker.options.id;
-          L.popup().setLatLng(marker.getLatLng()).setContent(content).openOn(map);
-        }
 
-        // return arrival time
-        var parentStation = this.getPopup().setContent({{ bus_stop_all['parent_station'] }});
-
-        if (document.getElementById("parent-station") != null){
-          document.getElementById("parent-station").innerHTML = e.target.parentStation;
-        }
 
 
 
@@ -75,15 +72,6 @@
         <div class="col-sn-4">
           <h4 id="name-stop"></h4>
         </div>
-      <div class="row">
-          <div class="col-sn-4">
-            <h4 id="lat-stop"></h4>
-          </div>
-          <div class="col-sn-4">
-            <h4 id="long-stop"></h4>
-          </div>
-          <div class="col-sn-4">
-            <h4 id="parent-station"> {{ latitude }}</h4>
           </div>
       </div>
     </div>

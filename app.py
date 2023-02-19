@@ -11,7 +11,10 @@ def bus_stops_all():
 
 
     df_combined = df_combined[df_combined["stop_name"].str.contains("Freiburg")] #filter only stops in Freiburg (optimize performance)
-    dict_all_stops = df_all_stops.to_dict('records')
+    df_combined = df_combined.drop_duplicates(subset=['stop_id'])
+
+    dict_all_stops = df_combined.to_dict('records')
+
 
     return render_template('home.html', bus_stops_all_markers=dict_all_stops)
 
