@@ -4,6 +4,22 @@ import pandas as pd
 app = Flask(__name__)
 
 @app.route('/')
+def bus_stops_all():
+    df_all_stops = pd.read_csv("./data/gtfs/stops.txt")
+    df_stop_times = pd.read_csv("./data/gtfs/stop_times.txt")
+    df_combined = pd.merge(df_all_stops, df_stop_times, left_on="stop_id", right_on="stop_id")  # combine both dataframes using "stop_id" column
+
+
+    df_combined = df_combined[df_combined["stop_name"].str.contains("Freiburg")] #filter only stops in Freiburg (optimize performance)
+    df_combined = df_combined.drop_duplicates(subset=['stop_id']) #remove duplicates considering only stop_id as reference
+
+    dict_all_stops = df_combined.to_dict('records')
+
+
+    return render_template('home.html', bus_stops_all_markers=dict_all_stops)
+
+
+@app.route('/city_center')
 def city_center():
     markers = [
         {
@@ -12,14 +28,7 @@ def city_center():
             'popup': 'Freiburg im Breisgau'
         }
     ]
-    return render_template('index.html', markers=markers)
-
-@app.route('/bus_stops_all')
-def bus_stops_all():
-    df_all_stops = pd.read_csv("./data/gtfs/stops.txt")
-    dict_all_stops = df_all_stops.to_dict('records')
-
-    return render_template('index.html', bus_stops_all_markers=dict_all_stops)
+    return render_template('home.html', markers=markers)
 
 @app.route('/about/')
 def about():
