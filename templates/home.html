@@ -23,8 +23,8 @@
                             "<p>{{ dict(bus_stop_all)['stop_name'].split(",")[1:][0] }}</p>" +     //display name of the bus station
                             "<p>Latitude: {{ dict(bus_stop_all)['stop_lat'] }}</p>" +                 //display latitude
                             "<p>Longitude: {{ dict(bus_stop_all)['stop_lon'] }}</p>" +                 //display longitude
-                            "<p>Arrival time: {{ dict(bus_stop_all)['arrival_time'] }}</p>" +         //display arrival time
-                            "<p>Departure time: {{ dict(bus_stop_all)['departure_time'] }}</p>" +
+                            "<p>Arrival time: {{ dict(bus_stop_all)['arrival_time'].time() }}</p>" +         //display arrival time (show only time)
+                            "<p>Departure time: {{ dict(bus_stop_all)['departure_time'].time() }}</p>" +     //display arrival time (show only time)
                             "</div>").openPopup();    //display departure time
 
 

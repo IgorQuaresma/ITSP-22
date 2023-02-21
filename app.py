@@ -23,8 +23,7 @@ def bus_stops_all():
 
     df_combined = df_combined[df_combined['arrival_time'].map(lambda x: x.hour) == datetime.now().hour] #filter the dataframe by only values close in time
 
-    df_combined = df_combined.drop_duplicates(
-        subset=['stop_id'])  # remove duplicates considering only stop_id as reference
+    df_combined = df_combined.drop_duplicates(subset=['stop_id'])  # remove duplicates considering only stop_id as reference
 
 
     dict_all_stops = df_combined.to_dict('records')
