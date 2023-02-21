@@ -2,6 +2,46 @@ from flask import Flask, render_template, url_for
 import pandas as pd
 from datetime import datetime, timedelta
 
+
+#Create all necessary functions
+def create_final_df(df_input):
+    ''''based on the input of the df with combined data of stops.txt and stop_times.txt
+     create a dictionary of the already treated information'''
+
+    df_combined = df_input[df_input["stop_name"].str.contains("Freiburg")]  # filter only stops in Freiburg (optimize performance)
+
+    # get current time
+    current_time = datetime.now()  # get current time
+    time_interval = 30  # time interval in min
+    weekday = current_time.weekday()  # from 0 to 6 from Monday to Sunday
+
+    current_calendar_type = ''
+    if weekday <= 4:
+        current_calendar_type = 'T0'
+    elif weekday == 5:
+        current_calendar_type = 'T2'
+    else:
+        current_calendar_type = 'T3'
+
+    stop_times_prop_arrival = df_input[
+        pd.to_numeric(df_input['arrival_time'].str[:2].values) < 24]  # eliminate not proper records
+    df_input['arrival_time'] = pd.to_datetime(stop_times_prop_arrival['arrival_time'],
+                                              format='%H:%M:%S').dt.time  # change type to t
+
+    up_time = (current_time + timedelta(minutes=time_interval)).time()  # get time in defined interval in min
+
+    buses_current_timeinterval = (df_input[(df_input['arrival_time'] > current_time.time())
+                                           & (df_input['arrival_time'] < up_time)
+                                           & (df_input['trip_id'].map(lambda x: x.split(".")[1].strip()) == current_calendar_type)]  # filter only correct weekday
+                                  .sort_values(by="arrival_time")  # sort the arrival times from closer to further time of the user
+                                  .drop_duplicates(subset=["stop_id"]))  # get only the first record (first bus that will come)
+
+    dict_all_stops = buses_current_timeinterval.to_dict('records')
+
+    return dict_all_stops
+
+
+#Create flask app
 app = Flask(__name__)
 
 @app.route('/')
@@ -11,32 +51,7 @@ def bus_stops_all():
     df_combined = pd.merge(df_all_stops, df_stop_times, left_on="stop_id", right_on="stop_id")  # combine both dataframes using "stop_id" column
 
 
-    df_combined = df_combined[df_combined["stop_name"].str.contains("Freiburg")] #filter only stops in Freiburg (optimize performance)
-
-
-    ##
-
-
-
-
-    #get current time
-    current_time = datetime.now()  # get current time
-    time_interval = 30  # time interval in min
-    weekday = current_time.weekday()  # from 0 to 6 from Monday to Sunday
-
-    stop_times_prop_arrival = df_combined[pd.to_numeric(df_combined['arrival_time'].str[:2].values) < 24]  # eliminate not proper records
-    df_combined['arrival_time'] = pd.to_datetime(stop_times_prop_arrival['arrival_time'], format='%H:%M:%S').dt.time  # change type to t
-
-    up_time = (current_time + timedelta(minutes=time_interval)).time()  # get time in defined interval in min
-
-    buses_current_timeinterval = df_combined[(df_combined['arrival_time'] > current_time.time()) & (df_combined['arrival_time'] < up_time)].sort_values(by="arrival_time").drop_duplicates(subset=["stop_id"])  # get only the first record (first bus that will come)
-
-
-
-    dict_all_stops = buses_current_timeinterval.to_dict('records')
-
-
-    return render_template('home.html', bus_stops_all_markers=dict_all_stops)
+    return render_template('home.html', bus_stops_all_markers=create_final_df(df_combined))
 
 
 @app.route('/city_center')
@@ -57,3 +72,34 @@ def about():
 
 if __name__ == '__main__':
    app.run(host="localhost", port=8080, debug=True)
+#
+# # get current time
+# current_time = datetime.now()  # get current time
+# time_interval = 30  # time interval in min
+# weekday = current_time.weekday()  # from 0 to 6 from Monday to Sunday
+#
+# current_calendar_type = ''
+# if weekday <= 4:
+#     current_calendar_type = 'T0'
+# elif weekday == 5:
+#     current_calendar_type = 'T2'
+# else:
+#     current_calendar_type = 'T3'
+#
+# stop_times_prop_arrival = df_combined[
+#     pd.to_numeric(df_combined['arrival_time'].str[:2].values) < 24]  # eliminate not proper records
+# df_combined['arrival_time'] = pd.to_datetime(stop_times_prop_arrival['arrival_time'],
+#                                              format='%H:%M:%S').dt.time  # change type to t
+#
+# up_time = (current_time + timedelta(minutes=time_interval)).time()  # get time in defined interval in min
+#
+# buses_current_timeinterval = (df_combined[(df_combined['arrival_time'] > current_time.time())
+#                                           & (df_combined['arrival_time'] < up_time)
+#                                           & (df_combined['trip_id'].map(
+#     lambda x: x.split(".")[1].strip()) == current_calendar_type)]  # filter only correct weekday
+#                               .sort_values(
+#     by="arrival_time")  # sort the arrival times from closer to further time of the user
+#                               .drop_duplicates(
+#     subset=["stop_id"]))  # get only the first record (first bus that will come)
+#
+# dict_all_stops = buses_current_timeinterval.to_dict('records')
