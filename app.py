@@ -36,7 +36,10 @@ def create_final_df(df_input):
                                     # get only the first record (first bus that will come)
 
     # crete new coloum where each row contains the list of trip_id values for the corresponding stop_id value in that row
-    buses_current_timeinterval['all_lines'] = buses_current_timeinterval.apply(lambda x: buses_current_timeinterval.loc[buses_current_timeinterval['stop_id'] == x['stop_id'], 'trip_id'].tolist(), axis=1)
+    buses_current_timeinterval['all_lines'] = buses_current_timeinterval.apply(lambda x: buses_current_timeinterval.loc[buses_current_timeinterval['stop_id'] == x['stop_id'], 'trip_id']
+                                                                               .tolist(), axis=1)
+
+    buses_current_timeinterval['all_lines'] = buses_current_timeinterval['all_lines'].map(lambda x: x[0].split("-")[0].split(".")[-1]) #transform format to show bus line
 
     buses_current_timeinterval_drop = buses_current_timeinterval.drop_duplicates(subset=['stop_id']) # keep only the first line to plot the information (improve performance)
 
