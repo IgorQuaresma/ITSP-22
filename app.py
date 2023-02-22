@@ -11,7 +11,7 @@ def create_final_df(df_input):
     df_combined = df_input[df_input["stop_name"].str.contains("Freiburg")]  # filter only stops in Freiburg (optimize performance)
 
     # get current time
-    current_time = datetime.now()  # get current time
+    current_time = datetime.now() + timedelta(minutes=5000) # get current time
     time_interval = 30  # time interval in min
     weekday = current_time.weekday()  # from 0 to 6 from Monday to Sunday
 
@@ -23,8 +23,7 @@ def create_final_df(df_input):
     else:
         current_calendar_type = 'T3'
 
-    stop_times_prop_arrival = df_input[
-        pd.to_numeric(df_input['arrival_time'].str[:2].values) < 24]  # eliminate not proper records
+    stop_times_prop_arrival = df_input[pd.to_numeric(df_input['arrival_time'].str[:2].values) < 24]  # eliminate not proper records
     df_input['arrival_time'] = pd.to_datetime(stop_times_prop_arrival['arrival_time'],
                                               format='%H:%M:%S').dt.time  # change type to t
 
@@ -33,10 +32,15 @@ def create_final_df(df_input):
     buses_current_timeinterval = (df_input[(df_input['arrival_time'] > current_time.time())
                                            & (df_input['arrival_time'] < up_time)
                                            & (df_input['trip_id'].map(lambda x: x.split(".")[1].strip()) == current_calendar_type)]  # filter only correct weekday
-                                  .sort_values(by="arrival_time")  # sort the arrival times from closer to further time of the user
-                                  .drop_duplicates(subset=["stop_id"]))  # get only the first record (first bus that will come)
+                                  .sort_values(by="arrival_time"))  # sort the arrival times from closer to further time of the user
+                                    # get only the first record (first bus that will come)
 
-    dict_all_stops = buses_current_timeinterval.to_dict('records')
+
+    buses_current_timeinterval['all_lines'] = buses_current_timeinterval.apply(lambda x: buses_current_timeinterval.loc[buses_current_timeinterval['stop_id'] == x['stop_id'], 'trip_id'].tolist(), axis=1)
+
+    buses_current_timeinterval_drop = buses_current_timeinterval.drop_duplicates(subset=['stop_id'])
+
+    dict_all_stops = buses_current_timeinterval_drop.to_dict('records')
 
     return dict_all_stops
 
