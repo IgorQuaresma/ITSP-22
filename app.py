@@ -42,7 +42,7 @@ def create_final_df(df_input):
 
     #return all lines information formatted to show to the user (only show bus line number)
     for i in range(len(buses_current_timeinterval['all_lines'])):
-        buses_current_timeinterval['all_lines'].iloc[i] = " ".join(set(
+        buses_current_timeinterval['all_lines'].iloc[i] = ", ".join(set(
             re.findall(r'-(\d+)-', j)[0] for j in buses_current_timeinterval['all_lines'].iloc[i]))
 
     #buses_current_timeinterval['all_lines'] = buses_current_timeinterval['all_lines'].map(lambda x: x[0].split("-")[0].split(".")[-1]) #transform format to show bus line
