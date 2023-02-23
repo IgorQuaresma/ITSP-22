@@ -1,6 +1,7 @@
 from flask import Flask, render_template, url_for
 import pandas as pd
 from datetime import datetime, timedelta
+import re
 
 
 #Create all necessary functions
@@ -11,7 +12,7 @@ def create_final_df(df_input):
     df_combined = df_input[df_input["stop_name"].str.contains("Freiburg")]  # filter only stops in Freiburg (optimize performance)
 
     # get current time
-    current_time = datetime.now()  # get current time
+    current_time = datetime.now() # get current time
     time_interval = 30  # time interval in min
     weekday = current_time.weekday()  # from 0 to 6 from Monday to Sunday
 
@@ -39,7 +40,12 @@ def create_final_df(df_input):
     buses_current_timeinterval['all_lines'] = buses_current_timeinterval.apply(lambda x: buses_current_timeinterval.loc[buses_current_timeinterval['stop_id'] == x['stop_id'], 'trip_id']
                                                                                .tolist(), axis=1)
 
-    buses_current_timeinterval['all_lines'] = buses_current_timeinterval['all_lines'].map(lambda x: x[0].split("-")[0].split(".")[-1]) #transform format to show bus line
+    #return all lines information formatted to show to the user (only show bus line number)
+    for i in range(len(buses_current_timeinterval['all_lines'])):
+        buses_current_timeinterval['all_lines'].iloc[i] = " ".join(set(
+            re.findall(r'-(\d+)-', j)[0] for j in buses_current_timeinterval['all_lines'].iloc[i]))
+
+    #buses_current_timeinterval['all_lines'] = buses_current_timeinterval['all_lines'].map(lambda x: x[0].split("-")[0].split(".")[-1]) #transform format to show bus line
 
     buses_current_timeinterval_drop = buses_current_timeinterval.drop_duplicates(subset=['stop_id']) # keep only the first line to plot the information (improve performance)
 
