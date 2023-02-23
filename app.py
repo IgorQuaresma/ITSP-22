@@ -24,15 +24,15 @@ def create_final_df(df_input):
     else:
         current_calendar_type = 'T3'
 
-    stop_times_prop_arrival = df_input[pd.to_numeric(df_input['arrival_time'].str[:2].values) < 24]  # eliminate not proper records
-    df_input['arrival_time'] = pd.to_datetime(stop_times_prop_arrival['arrival_time'],
+    stop_times_prop_arrival = df_combined[pd.to_numeric(df_combined['arrival_time'].str[:2].values) < 24]  # eliminate not proper records
+    df_combined['arrival_time'] = pd.to_datetime(stop_times_prop_arrival['arrival_time'],
                                               format='%H:%M:%S').dt.time  # change type to t
 
     up_time = (current_time + timedelta(minutes=time_interval)).time()  # get time in defined interval in min
 
-    buses_current_timeinterval = (df_input[(df_input['arrival_time'] > current_time.time())
-                                           & (df_input['arrival_time'] < up_time)
-                                           & (df_input['trip_id'].map(lambda x: x.split(".")[1].strip()) == current_calendar_type)]  # filter only correct weekday
+    buses_current_timeinterval = (df_combined[(df_combined['arrival_time'] > current_time.time())
+                                           & (df_combined['arrival_time'] < up_time)
+                                           & (df_combined['trip_id'].map(lambda x: x.split(".")[1].strip()) == current_calendar_type)]  # filter only correct weekday
                                   .sort_values(by="arrival_time"))  # sort the arrival times from closer to further time of the user
                                     # get only the first record (first bus that will come)
 
