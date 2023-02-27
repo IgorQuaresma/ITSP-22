@@ -14,7 +14,7 @@ By a user click to a specific bus stop on the web-map, the user receive the bus 
 
 ## Data
 
-The project based on GTFS static data for Freiburg city (https://transitfeeds.com/p/freiburger-verkehrs-ag/1228/latest). 
+The project is based on GTFS static data for Freiburg city (https://transitfeeds.com/p/freiburger-verkehrs-ag/1228/latest). 
 
 GTFS - general transit feed specification - defines a common format for public transportation schedules and associated geographic information. There are several files that gives information about particular aspect of transit: stops, routes, trips, and other schedule data. The GTFS data is open access. 
 
@@ -23,3 +23,7 @@ GTFS - general transit feed specification - defines a common format for public t
 Made by Igor Alexander Quaresma and Anastasia Igitova
 
 2023
+
+## How to run the application
+To use the applcation you can run the app.py file and click on the localhost link that will appear. The application will open in your web browser.
+![Semantic description of image](/images/run_appplication.png "Run application")  
