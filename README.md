@@ -25,5 +25,11 @@ Made by Igor Alexander Quaresma and Anastasia Igitova
 2023
 
 ## How to run the application
-To use the applcation you can run the app.py file and click on the localhost link that will appear. The application will open in your web browser.
-![Semantic description of image](/images/run_appplication.png "Run application")  
+
+To use the applcation you can run the app.py file and click on the localhost link that will appear. The application will open in your web browser after that.
+![](/images/run_appplication.png "Run application")  
+
+## Result
+The final application can be seen below.
+ 
+![](/images/final_application.png "Final Application") 
