@@ -12,7 +12,7 @@ def create_final_df(df_input):
     df_combined = df_input[df_input["stop_name"].str.contains("Freiburg")]  # filter only stops in Freiburg (optimize performance)
 
     # get current time
-    current_time = datetime.now() # get current time
+    current_time = datetime.now()  # get current time
     time_interval = 30  # time interval in min
     weekday = current_time.weekday()  # from 0 to 6 from Monday to Sunday
 
